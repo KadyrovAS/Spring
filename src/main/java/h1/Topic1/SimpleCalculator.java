@@ -1,4 +1,4 @@
-package h1.topic1;
+package h1.Topic1;
 
 public class SimpleCalculator implements ICalculator{
     @Override

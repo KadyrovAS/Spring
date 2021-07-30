@@ -1,4 +1,4 @@
-package h1.topic2;
+package h1.Topic2;
 
 import org.springframework.scheduling.config.Task;
 

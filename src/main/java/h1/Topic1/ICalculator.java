@@ -1,4 +1,4 @@
-package h1.topic1;
+package h1.Topic1;
 
 public interface ICalculator {
     int sum(int a, int b);
