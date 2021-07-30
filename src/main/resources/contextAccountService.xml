@@ -4,13 +4,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                https://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean name="accountService" class="h2.UserAccountService" >
-        <constructor-arg name="dataBase" ref="fileStore"/>
+
+    <bean id="accountService" class="h2.UserAccountService" >
+        <constructor-arg name="store" ref="fileStore"/>
     </bean>
 
-
-
-    <bean name="fileStore" class="h2.FileStore">
+    <bean id="fileStore" class="h2.FileStore">
         <property name="dataBase">
             <list value-type="java.util.ArrayList">
                 <bean class="h2.Account">
