@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+               https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="accountService" class="h2.UserAccountService" >
+        <constructor-arg name="dataBase" ref="fileStore"/>
+    </bean>
+
+
+
+    <bean name="fileStore" class="h2.FileStore">
+        <property name="dataBase">
+            <list value-type="java.util.ArrayList">
+                <bean class="h2.Account">
+                    <constructor-arg name="id" value="1"/>
+                    <constructor-arg name="holder" value="Ivanov"/>
+                    <constructor-arg name="amount" value="1000"/>
+                </bean>
+                <bean class="h2.Account">
+                    <constructor-arg name="id" value="2"/>
+                    <constructor-arg name="holder" value="Petrov"/>
+                    <constructor-arg name="amount" value="2000"/>
+                </bean>
+                <bean class="h2.Account">
+                    <constructor-arg name="id" value="3"/>
+                    <constructor-arg name="holder" value="Sidorov"/>
+                    <constructor-arg name="amount" value="3000"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

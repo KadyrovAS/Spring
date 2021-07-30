@@ -1,0 +1,65 @@
+package h2;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.io.IOException;
+
+public class UserAccountService implements AccountService{
+    Store store;
+    public UserAccountService(Store store) throws IOException {
+        this.store = store;
+    }
+
+    public UserAccountService() {
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    @Override
+    public void withdraw(int accountId, int amount) throws NotEnoughMoneyException, UnknownAccountException, IOException {
+        Account account = getAccount(accountId);
+        if (account.amount < amount)
+            throw new NotEnoughMoneyException("Недостаточно денег на счете");
+        account.amount -= amount;
+    }
+
+    @Override
+    public int balance(int accountId) throws UnknownAccountException, IOException {
+        return getAccount(accountId).amount;
+    }
+
+    @Override
+    public void deposit(int accountId, int amount) throws UnknownAccountException, IOException {
+        Account account = getAccount(accountId);
+        account.amount += amount;
+    }
+
+    @Override
+    public void transfer(int from, int to, int amount) throws NotEnoughMoneyException, UnknownAccountException, IOException {
+        Account accountFrom = getAccount(from);
+        Account accountTo = getAccount(to);
+        if (accountFrom.amount < amount)
+            throw new NotEnoughMoneyException("Недостаточно денег на счете");
+        accountFrom.amount -= amount;
+        accountTo.amount += amount;
+    }
+
+    private Account getAccount(int accountId) throws UnknownAccountException, IOException {
+        for (Object ac: store.read()){
+            Account account = (Account)ac;
+            if (account.id == accountId)
+                return account;
+        }
+        throw new UnknownAccountException("Аккаунт с id=" + accountId + " в базе данных не найден!");
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        ApplicationContext context = new ClassPathXmlApplicationContext("contextAccountService.xml");
+        UserAccountService service = (UserAccountService) context.getBean("accountService");
+        service.store.read().forEach(System.out::println);
+    }
+}
