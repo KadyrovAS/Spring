@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
+import java.util.function.Predicate;
 
 public class UserAccountService implements AccountService{
     Store store;
@@ -48,18 +49,19 @@ public class UserAccountService implements AccountService{
     }
 
     private Account getAccount(int accountId) throws UnknownAccountException, IOException {
-        for (Object ac: store.read()){
-            Account account = (Account)ac;
-            if (account.id == accountId)
-                return account;
+        Predicate<Object>preLambda=x->{
+            Account account = (Account)x;
+            return account.id == accountId;
+        };
+
+        Object account;
+        try {
+            account = this.store.read().stream().filter(preLambda).findAny().get();
+        } catch (Throwable e) {
+            throw new UnknownAccountException("Аккаунт с id=" + accountId + " в базе данных не найден!");
         }
-        throw new UnknownAccountException("Аккаунт с id=" + accountId + " в базе данных не найден!");
+
+        return (Account) account;
     }
 
-
-    public static void main(String[] args) throws IOException {
-        ApplicationContext context = new ClassPathXmlApplicationContext("contextAccountService.xml");
-        UserAccountService service = (UserAccountService) context.getBean("accountService");
-        service.store.read().forEach(System.out::println);
-    }
 }

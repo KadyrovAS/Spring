@@ -15,17 +15,52 @@
                 <bean class="h2.Account">
                     <constructor-arg name="id" value="1"/>
                     <constructor-arg name="holder" value="Ivanov"/>
-                    <constructor-arg name="amount" value="1000"/>
+                    <constructor-arg name="amount" value="1001"/>
                 </bean>
                 <bean class="h2.Account">
                     <constructor-arg name="id" value="2"/>
                     <constructor-arg name="holder" value="Petrov"/>
-                    <constructor-arg name="amount" value="2000"/>
+                    <constructor-arg name="amount" value="1002"/>
                 </bean>
                 <bean class="h2.Account">
                     <constructor-arg name="id" value="3"/>
                     <constructor-arg name="holder" value="Sidorov"/>
-                    <constructor-arg name="amount" value="3000"/>
+                    <constructor-arg name="amount" value="1003"/>
+                </bean>
+                <bean class="h2.Account">
+                    <constructor-arg name="id" value="4"/>
+                    <constructor-arg name="holder" value="Smirnov"/>
+                    <constructor-arg name="amount" value="1004"/>
+                </bean>
+                <bean class="h2.Account">
+                    <constructor-arg name="id" value="5"/>
+                    <constructor-arg name="holder" value="Kuznecov"/>
+                    <constructor-arg name="amount" value="1005"/>
+                </bean>
+                <bean class="h2.Account">
+                    <constructor-arg name="id" value="6"/>
+                    <constructor-arg name="holder" value="Stepanov"/>
+                    <constructor-arg name="amount" value="1006"/>
+                </bean>
+                <bean class="h2.Account">
+                    <constructor-arg name="id" value="7"/>
+                    <constructor-arg name="holder" value="Sobolev"/>
+                    <constructor-arg name="amount" value="1007"/>
+                </bean>
+                <bean class="h2.Account">
+                    <constructor-arg name="id" value="8"/>
+                    <constructor-arg name="holder" value="Efremov"/>
+                    <constructor-arg name="amount" value="1008"/>
+                </bean>
+                <bean class="h2.Account">
+                    <constructor-arg name="id" value="9"/>
+                    <constructor-arg name="holder" value="Komarov"/>
+                    <constructor-arg name="amount" value="1009"/>
+                </bean>
+                <bean class="h2.Account">
+                    <constructor-arg name="id" value="10"/>
+                    <constructor-arg name="holder" value="Kadyrov"/>
+                    <constructor-arg name="amount" value="1010"/>
                 </bean>
             </list>
         </property>
