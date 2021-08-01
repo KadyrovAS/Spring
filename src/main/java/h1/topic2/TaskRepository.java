@@ -1,7 +1,5 @@
 package h1.topic2;
 
-import org.springframework.scheduling.config.Task;
-
 import java.util.List;
 
 public interface TaskRepository {
