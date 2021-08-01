@@ -54,4 +54,15 @@ public class Task {
     public void setStoryPoint(int storyPoint) {
         this.storyPoint = storyPoint;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", description='" + description + '\'' +
+                ", author='" + author + '\'' +
+                ", name='" + name + '\'' +
+                ", storyPoint=" + storyPoint +
+                '}';
+    }
 }

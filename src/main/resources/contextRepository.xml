@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+               https://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="repository" class="h1.topic2.FileTaskRepository">
+        <property name="listTaskRepository">
+            <list value-type="java.util.List">
+                <bean class="h1.topic2.Task">
+                    <constructor-arg name="id" value="1"/>
+                    <constructor-arg name="description" value="send email"/>
+                    <constructor-arg name="author" value="Ivanov"/>
+                    <constructor-arg name="name" value="email"/>
+                    <constructor-arg name="storyPoint" value="10"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

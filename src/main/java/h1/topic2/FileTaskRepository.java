@@ -3,6 +3,7 @@ package h1.topic2;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -16,14 +17,17 @@ public class FileTaskRepository implements TaskRepository {
         this.listTaskRepository = listTaskRepository;
     }
 
+    public FileTaskRepository() {
+    }
+
     @Override
     public void save(Task task) {
         Stream<Task> stream = listTaskRepository.stream().filter(x->x.getId().compareTo(task.getId()) == 0);
         if (stream.count() == 0)
             listTaskRepository.add(task);
         else{
-            Task taskTo = stream.findAny().get();
-            taskTo = task;
+            Task taskTo = listTaskRepository.stream().filter(x->x.getId().compareTo(task.getId()) == 0).findAny().get();
+            copyTask(task, taskTo);
         }
         writeToFile();
     }
@@ -36,8 +40,10 @@ public class FileTaskRepository implements TaskRepository {
     @Override
     public void delete(String id) {
         Stream<Task> stream = listTaskRepository.stream().filter(x->x.getId().compareTo(id) == 0);
-        if (stream.count() != 0)
-            listTaskRepository.remove(stream.findAny().get());
+        if (stream.count() != 0) {
+            Task task = listTaskRepository.stream().filter(x -> x.getId().compareTo(id) == 0).findAny().get();
+            listTaskRepository.remove(task);
+        }
         writeToFile();
     }
 
@@ -48,10 +54,26 @@ public class FileTaskRepository implements TaskRepository {
 
     @Override
     public Task get(String id) {
-        Stream<Task> stream = listTaskRepository.stream().filter(x->x.getId().compareTo(id) == 0);
-        return stream.findAny().get();
+        if (listTaskRepository.stream().filter(x->x.getId().compareTo(id) == 0).count() == 0)
+            return null;
+        return listTaskRepository.stream().filter(x->x.getId().compareTo(id) == 0).findAny().get();
     }
 
+    private void copyTask(Task taskFrom, Task taskTo)  {
+        for (Field fieldTo: taskTo.getClass().getDeclaredFields()){
+            fieldTo.setAccessible(true);
+            for (Field field: taskFrom.getClass().getDeclaredFields()) {
+                if (fieldTo.getName().compareTo(field.getName()) == 0) {
+                    field.setAccessible(true);
+                    try {
+                        fieldTo.set(taskTo, field.get(taskFrom));
+                    }catch (IllegalAccessException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
     private void writeToFile()  {
         String json = new Gson().toJson(listTaskRepository);
         try {
