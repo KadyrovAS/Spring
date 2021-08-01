@@ -1,9 +1,14 @@
 package h2;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 public class FileStore<E> implements Store{
+    final String DATA_BASE_PATH = "accounts.json";
     List<E> dataBase;
 
     public FileStore() {
@@ -13,13 +18,10 @@ public class FileStore<E> implements Store{
         this.dataBase = dataBase;
     }
 
-    public FileStore(List<E> dataBase) {
-        this.dataBase = dataBase;
-    }
-
     @Override
     public void write(Object item) throws IOException {
-
+        String json = new Gson().toJson(dataBase);
+        Files.writeString(Path.of(DATA_BASE_PATH), json);
     }
 
     @Override

@@ -12,13 +12,6 @@ public class UserAccountService implements AccountService{
         this.store = store;
     }
 
-    public UserAccountService() {
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
-    }
-
     @Override
     public void withdraw(int accountId, int amount) throws NotEnoughMoneyException, UnknownAccountException, IOException {
         Account account = getAccount(accountId);
