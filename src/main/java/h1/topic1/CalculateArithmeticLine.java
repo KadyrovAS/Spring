@@ -8,11 +8,10 @@ import java.util.ArrayList;
 public class CalculateArithmeticLine{
     //Парсит строку line, обрабатывая рекурсивно операции в скобках
 //Учитывает очередность операций
-    public static int calculate(String line){
+    public static int calculate(ICalculator calculator, String line){
         String operationLine = line;
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("contextCalculator.xml");
-        ICalculator calculator = (ICalculator) context.getBean("calculator");
+
 
         //ищем  скобки
         ArrayList<Integer> leftBracketPosition = new ArrayList<>();
@@ -37,7 +36,8 @@ public class CalculateArithmeticLine{
             if (leftBracketPosition.get(0) > rightBracketPosition.get(n))
                 throw new RuntimeException("Некорректная арифметическая запись со скобками");
 
-            tempArg = calculate(operationLine.substring(leftBracketPosition.get(0) + 1, rightBracketPosition.get(n)));
+            tempArg = calculate(calculator,
+                    operationLine.substring(leftBracketPosition.get(0) + 1, rightBracketPosition.get(n)));
             operationLine = operationLine.substring(0, leftBracketPosition.get(0)) +
                     tempArg + operationLine.substring(rightBracketPosition.get(n) + 1);
         }
